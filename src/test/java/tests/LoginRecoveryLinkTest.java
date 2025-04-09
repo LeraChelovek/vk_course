@@ -1,25 +1,20 @@
 package tests;
 
-import com.codeborne.selenide.Condition;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import pages.LoginPage;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.*;
-
-public class LoginRecoveryLinkTest {
-
-    @BeforeEach
-    public void setUp() {
-        open("https://ok.ru/");  // Открываем страницу авторизации Одноклассников
-    }
+public class LoginRecoveryLinkTest extends BaseLoginTest{
     @Test
+    @Tag("LoginTests")
+    @Timeout(6)
+    @DisplayName("Check right work of link for recovery page ")
     public void testRecoveryLink() {
         LoginPage loginPage = new LoginPage();
         loginPage.clickRecoveryLink();
-        $x("//*[@id=\"hook_Block_AnonymRecoveryStart\"]/div/div[1]/div[1]")
-                .shouldHave(Condition.text("Восстановление доступа"));
 
+        assertThat(loginPage.getRecoveryText())
+                .isEqualTo("Восстановление доступа");
     }
+
 }

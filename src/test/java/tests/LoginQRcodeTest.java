@@ -1,24 +1,19 @@
 package tests;
 
-import com.codeborne.selenide.Condition;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import pages.LoginPage;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.*;
+public class LoginQRcodeTest extends BaseLoginTest{
 
-public class LoginQRcodeTest {
-    @BeforeEach
-    public void setUp() {
-        open("https://ok.ru/");  // Открываем страницу авторизации Одноклассников
-    }
     @Test
+    @Tag("LoginTests")
+    @DisplayName("Check right work of link for getting QRcode")
     public void testQrCodeLogin() {
-        // Нажимаем на ссылку "Войти по QR-коду"
-        $x("//*[@id=\"qrCode-5671152440\"]").click();
+        LoginPage loginPage = new LoginPage();
+        loginPage.clickQRcodeLink();
 
-        // Проверяем наличие заголовка QR-авторизации
-        $x("//*[@id=\"hook_Block_AnonymLoginQRCode\"]/div/div[1]/div[1]/div[1]")
-                .shouldHave(Condition.text("Получить код для быстрого входа в ОК"));
+        assertThat(loginPage.getQRcodeInfoHeaderText())
+                .isEqualTo("Получите код для быстрого входа в ОК");
     }
 }
