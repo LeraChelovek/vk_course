@@ -20,8 +20,7 @@ public class LoginButtonWithParamsTest extends BaseLoginTest{
     @Timeout(value = 6000, unit = TimeUnit.MILLISECONDS)
     public void testLoginButtonWithErrorValues(String login, String password) {
         LoginPage loginPage = new LoginPage();
-        loginPage.enterPhone(login);
-        loginPage.enterPassword(password).clickLoginButton();
+        loginPage.enterPhone(login).enterPassword(password).clickLoginButton();
         String errorText = loginPage.waitForMessageForEnter().getErrorText();
         assertTrue(errorText.contains("Неправильно указан логин"), "Текст не содержит 'Неправильно указан логин'");
     }

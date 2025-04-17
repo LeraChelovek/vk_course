@@ -6,7 +6,8 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class LoginPage {
+
+public class LoginPage extends LoadableComponent<LoginPage>{
 
     private final SelenideElement phoneField = $x("//*[@id='field_email']");
     private final SelenideElement passwordField=$x("//*[@id='field_password']");
@@ -19,16 +20,25 @@ public class LoginPage {
     private final SelenideElement recoveryLink = $x("//*[@class='lp']");
     private final SelenideElement QRcodeInfoHeader=$x("//*[@class='qr_code_info_header']");
     private final SelenideElement recoveryText=$x("//*[@class='ext-registration_h']");
-    public void check() {
-        phoneField.shouldBe(visible);
-        passwordField.shouldBe(visible);
-        loginButton.shouldBe(enabled);
+    private final SelenideElement filterForMainBody=$x("//*[@class='tab-filter-with-body']");
+    private final SelenideElement footerLinks=$x("//*[@class='ff_links']");
+    private final SelenideElement footerHrefAboutRecommendedTechnologies=$x("//*[@class='ff_rtterms']");
+
+
+    @Override
+    protected void isLoaded() throws Error{
+        filterForMainBody.shouldBe(visible.because("Проверка нахождения на нужной странице №1"));
+        footerLinks.shouldBe(visible.because("Проверка нахождения на нужной странице №2"));
+        footerHrefAboutRecommendedTechnologies.shouldBe(enabled.because("Проверка нахождения на нужной странице №3"));
+
     }
+
     public LoginPage() {
-        check();
+        isLoaded();
     }
-    public void enterPhone(String phone) {
+    public LoginPage enterPhone(String phone) {
         phoneField.setValue(phone);
+        return this;
     }
     public LoginPage enterPassword(String password){
         passwordField.setValue(password);

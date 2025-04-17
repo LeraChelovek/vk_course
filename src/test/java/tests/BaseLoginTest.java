@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class BaseLoginTest {
     @BeforeEach
-    @Timeout(5)
+    @Timeout(20)
     public void setUp() {
         open("https://ok.ru/");
     }
